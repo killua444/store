@@ -197,7 +197,13 @@ const renderProducts = () => {
         </div>
       </div>
     `;
-    card.querySelector('.card-btn--cart').addEventListener('click', () => addToCart(product));
+    card.querySelector('.card-btn--cart').addEventListener('click', () => {
+      if (product.colors?.length || product.sizesEU?.length) {
+        openProductSheet(product);
+      } else {
+        addToCart(product);
+      }
+    });
     card.querySelector('.card-btn--quick').addEventListener('click', () => openProductSheet(product));
     card.querySelector('.card-share').addEventListener('click', () => openWhatsApp(buildProductShareMessage(product)));
     card.querySelector('.card-wish').addEventListener('click', () => toggleWishlist(product.id));
@@ -410,25 +416,27 @@ const adjustSheetQty = (delta) => {
 
 const handleSheetAddToCart = () => {
   const product = state.selectedProduct;
-  if (!product) return;
+  if (!product) return false;
   if (product.colors?.length && !state.sheetColor) {
     showToast('Choose a color first');
-    return;
+    return false;
   }
   if (product.sizesEU?.length && !state.sheetSize) {
     showToast('Choose a size first');
-    return;
+    return false;
   }
   addToCart(product, {
     qty: state.sheetQty,
     color: state.sheetColor,
     size: state.sheetSize
   });
+  return true;
 };
 
 const handleSheetBuyNow = () => {
-  handleSheetAddToCart();
-  openCartDrawer();
+  if (handleSheetAddToCart()) {
+    openCartDrawer();
+  }
 };
 
 const submitCheckout = () => {
