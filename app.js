@@ -89,13 +89,14 @@ const calcTotals = () => {
 };
 
 let toastTimer;
-const showToast = (message) => {
+const showToast = (message, type = 'info') => {
   const toast = $('#toast');
   if (!toast) return;
   toast.textContent = message;
+  toast.className = `toast toast-${type}`;
   toast.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 4000);
 };
 
 const openWhatsApp = (text, phone) => {
@@ -481,10 +482,41 @@ const exportProducts = () => {
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = url;
-  link.download = 'products.json';
+  link.download = `products-${new Date().toISOString().split('T')[0]}.json`;
   link.click();
   URL.revokeObjectURL(url);
-  showToast('Exported products.json');
+  showToast('📥 Products exported successfully');
+};
+
+const importProducts = () => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = JSON.parse(e.target.result);
+        if (data.products && Array.isArray(data.products)) {
+          const importedCount = data.products.length;
+          state.products = [...state.products, ...data.products];
+          persistState();
+          renderProducts();
+          renderAdmin();
+          showToast(`📤 Imported ${importedCount} products successfully`);
+        } else {
+          showToast('❌ Invalid file format');
+        }
+      } catch (error) {
+        showToast('❌ Error reading file');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
 };
 
 const handleAdminSubmit = (event) => {
@@ -492,13 +524,30 @@ const handleAdminSubmit = (event) => {
   const id = $('#adminId').value.trim();
   const title = $('#adminTitle').value.trim();
   if (!id || !title) {
-    showToast('ID and Title are required');
+    showToast('❌ ID and Title are required');
     return;
   }
+
+  // Check for duplicate ID when adding new product
+  if (!state.editingProductId && state.products.some(p => p.id === id)) {
+    showToast('❌ Product ID already exists');
+    return;
+  }
+
   const brand = $('#adminBrand').value.trim();
   const category = $('#adminCategory').value.trim();
   const price = Number($('#adminPrice').value) || 0;
+  if (price <= 0) {
+    showToast('❌ Price must be greater than 0');
+    return;
+  }
+
   const image = $('#adminImage').value.trim();
+  if (!image) {
+    showToast('❌ Image URL is required');
+    return;
+  }
+
   const colors = parseCsv($('#adminColors').value);
   const sizes = parseCsv($('#adminSizes').value);
   const rating = $('#adminRating').value ? Number($('#adminRating').value) : undefined;
@@ -546,10 +595,10 @@ const handleAdminSubmit = (event) => {
         }
       });
     }
-    showToast('Product updated');
+    showToast(`✅ "${payload.title}" updated successfully`);
   } else {
     state.products.push(payload);
-    showToast('Product added');
+    showToast(`✅ "${payload.title}" added successfully`);
   }
 
   persistState();
@@ -562,7 +611,6 @@ const handleAdminSubmit = (event) => {
 const deleteProduct = (id) => {
   const target = state.products.find((product) => product.id === id);
   if (!target) return;
-  if (!confirm(`Delete product "${target.title}"?`)) return;
   state.products = state.products.filter((product) => product.id !== id);
   state.cart = state.cart.filter((item) => item.id !== id);
   state.wishlist.delete(id);
@@ -572,7 +620,7 @@ const deleteProduct = (id) => {
   renderCart();
   renderAdmin();
   updateBadge('#wishlistCount', state.wishlist.size);
-  showToast('Product deleted');
+  showToast(`🗑️ "${target.title}" deleted successfully`);
 };
 
 const filterAdmin = (query, mode) => {
@@ -584,14 +632,27 @@ const filterAdmin = (query, mode) => {
   return state.products.filter((product) => product.title.toLowerCase().includes(term));
 };
 
+const updateAdminStats = () => {
+  const totalProducts = state.products.length;
+  const categories = new Set(state.products.map(p => p.category).filter(Boolean));
+  const totalValue = state.products.reduce((sum, p) => sum + p.price, 0);
+  const avgPrice = totalProducts > 0 ? totalValue / totalProducts : 0;
+
+  $('#totalProducts').textContent = totalProducts;
+  $('#totalCategories').textContent = categories.size;
+  $('#totalValue').textContent = formatMAD(totalValue);
+  $('#avgPrice').textContent = formatMAD(avgPrice);
+};
+
 const renderAdmin = () => {
+  updateAdminStats();
   const list = filterAdmin($('#adminSearch').value, state.adminMode);
   const root = $('#adminResults');
   root.innerHTML = '';
 
   const header = document.createElement('div');
   header.className = 'admin-row admin-header';
-  header.innerHTML = '<div></div><div>Title</div><div>ID</div><div>Price</div><div>Actions</div>';
+  header.innerHTML = '<div>📷</div><div>📦 Title</div><div>🆔 ID</div><div>💰 Price</div><div>⚡ Actions</div>';
   root.appendChild(header);
 
   list.forEach((product) => {
@@ -599,21 +660,28 @@ const renderAdmin = () => {
     row.className = 'admin-row';
     row.innerHTML = `
       <img src="${product.image}" alt="${product.title}">
-      <div>${product.title}</div>
-      <div>${product.id}</div>
-      <div>${formatMAD(product.price)}</div>
+      <div><strong>${product.title}</strong><br><small style="color:var(--muted);">${product.category || 'No category'}</small></div>
+      <div><code style="background:var(--surface-2);padding:0.25rem 0.5rem;border-radius:4px;font-size:0.85rem;">${product.id}</code></div>
+      <div><strong>${formatMAD(product.price)}</strong></div>
       <div class="admin-actions">
-        <button class="copy-btn" type="button">Copy ID</button>
-        <button class="admin-wa-btn" type="button">Admin WA</button>
-        <button class="copy-btn" type="button" data-action="edit">Edit</button>
-        <button class="copy-btn" type="button" data-action="delete">Delete</button>
+        <button class="copy-btn" type="button" title="Copy Product ID">📋 Copy ID</button>
+        <button class="admin-wa-btn" type="button" title="Send via WhatsApp">📱 WA</button>
+        <button class="copy-btn" type="button" data-action="edit" title="Edit Product">✏️ Edit</button>
+        <button class="copy-btn" type="button" data-action="delete" title="Delete Product" style="background:#ef4444;color:white;">🗑️ Delete</button>
       </div>
     `;
     const [copyBtn, waBtn, editBtn, deleteBtn] = row.querySelectorAll('button');
-    copyBtn.addEventListener('click', () => copyText(product.id));
+    copyBtn.addEventListener('click', () => {
+      copyText(product.id);
+      showToast('Product ID copied!');
+    });
     waBtn.addEventListener('click', () => openWhatsApp(adminCommand(product)));
     editBtn.addEventListener('click', () => populateAdminForm(product));
-    deleteBtn.addEventListener('click', () => deleteProduct(product.id));
+    deleteBtn.addEventListener('click', () => {
+      if (confirm(`Are you sure you want to delete "${product.title}"? This action cannot be undone.`)) {
+        deleteProduct(product.id);
+      }
+    });
     root.appendChild(row);
   });
 };
@@ -735,6 +803,7 @@ const initEventListeners = () => {
 
   $('#adminForm').addEventListener('submit', handleAdminSubmit);
   $('#adminFormReset').addEventListener('click', resetAdminForm);
+  $('#adminImport').addEventListener('click', importProducts);
   $('#adminExport').addEventListener('click', exportProducts);
 };
 

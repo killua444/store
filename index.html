@@ -224,8 +224,27 @@
     <section class="admin" id="adminView" hidden aria-label="Admin tools">
       <div class="container admin-wrap">
         <div class="admin-header">
-          <h2>Admin — Quick Search</h2>
-          <button class="btn-secondary" id="adminLogout" type="button">Logout</button>
+          <h2>🛠️ Admin Dashboard</h2>
+          <button class="btn-secondary" id="adminLogout" type="button">🚪 Logout</button>
+        </div>
+
+        <div class="admin-stats">
+          <div class="admin-stat">
+            <span class="admin-stat-number" id="totalProducts">0</span>
+            <span class="admin-stat-label">Total Products</span>
+          </div>
+          <div class="admin-stat">
+            <span class="admin-stat-number" id="totalCategories">0</span>
+            <span class="admin-stat-label">Categories</span>
+          </div>
+          <div class="admin-stat">
+            <span class="admin-stat-number" id="totalValue">MAD 0</span>
+            <span class="admin-stat-label">Total Value</span>
+          </div>
+          <div class="admin-stat">
+            <span class="admin-stat-number" id="avgPrice">MAD 0</span>
+            <span class="admin-stat-label">Avg Price</span>
+          </div>
         </div>
         <div class="admin-controls">
           <input
@@ -242,10 +261,11 @@
         <form class="admin-form" id="adminForm" autocomplete="off">
           <div class="admin-form-header">
             <h3 id="adminFormTitle">Add Product</h3>
-            <div class="admin-form-actions">
-              <button class="btn-secondary" type="button" id="adminFormReset">Reset</button>
-              <button class="btn-secondary" type="button" id="adminExport">Export JSON</button>
-            </div>
+          <div class="admin-form-actions">
+            <button class="btn-secondary" type="button" id="adminFormReset">🔄 Reset</button>
+            <button class="btn-secondary" type="button" id="adminImport">📤 Import JSON</button>
+            <button class="btn-secondary" type="button" id="adminExport">📥 Export JSON</button>
+          </div>
           </div>
           <div class="form-grid admin-form-grid">
             <input id="adminId" class="input" placeholder="Product ID" aria-label="Product ID" required />
