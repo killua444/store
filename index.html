@@ -3,23 +3,36 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Shadow Wear — Premium Purple</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <title>Shadow Wear — Modern Light Store</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body>
-    <header class="site-header">
+    <header class="site-header" aria-label="Top navigation">
       <div class="container header-row">
         <button class="icon-btn" id="menuBtn" aria-label="Menu">☰</button>
         <a class="brand" href="#">Shadow Wear</a>
         <div class="search-wrap">
-          <input id="searchInput" class="input" type="search" placeholder="Search products…" aria-label="Search products" />
+          <input
+            id="searchInput"
+            class="input"
+            type="search"
+            placeholder="Search products…"
+            aria-label="Search products"
+          />
         </div>
         <nav class="nav-actions" aria-label="Primary actions">
-          <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">🌓</button>
-          <a class="icon-btn" href="#admin" title="Admin" aria-label="Admin">⚙️</a>
+          <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">🎨</button>
+          <button class="icon-btn" id="wishlistBtn" aria-label="Wishlist">
+            ♡
+            <span class="badge" id="wishlistCount">0</span>
+          </button>
+          <a class="icon-btn" href="#admin" aria-label="Admin">⚙️</a>
           <button class="icon-btn" id="openCart" aria-label="Open cart">
             🛒
             <span class="badge" id="cartCount">0</span>
@@ -28,43 +41,92 @@
       </div>
     </header>
 
-    <main class="container">
-      <section class="hero">
-        <div class="hero-copy">
-          <h1>Elevate your fit</h1>
-          <p>Premium drops, timeless basics, and clean silhouettes.</p>
-          <a class="cta" href="#popular">Explore</a>
+    <main class="container page-content">
+      <section class="promo-card">
+        <div class="promo-copy">
+          <span class="promo-eyebrow">Special Offer</span>
+          <h1>80% OFF | Mint Capsule Collection</h1>
+          <p>Fresh layers, soft silhouettes, and breathable fits ready for the season.</p>
+          <button class="btn-primary promo-cta" type="button">Shop Now</button>
         </div>
         <img
-          class="hero-img"
-          src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1200&auto=format&fit=crop&q=80"
-          alt="Shadow Wear look"
+          class="promo-image"
+          src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1200&auto=format&fit=crop"
+          alt="Mint promo outfit"
           loading="lazy"
         />
       </section>
 
-      <div class="pills" id="filters" role="tablist" aria-label="Category filters">
-        <button class="pill active" data-filter="all" type="button">All</button>
-        <button class="pill" data-filter="Men" type="button">Men</button>
-        <button class="pill" data-filter="Women" type="button">Women</button>
-        <button class="pill" data-filter="Kids" type="button">Kids</button>
-      </div>
+      <section class="icon-tiles" aria-label="Quick actions">
+        <button class="icon-tile" type="button">
+          <span class="icon-circle">🛍️</span>
+          <span>Category</span>
+        </button>
+        <button class="icon-tile" type="button">
+          <span class="icon-circle">🎟️</span>
+          <span>Voucher</span>
+        </button>
+        <button class="icon-tile" type="button">
+          <span class="icon-circle">👛</span>
+          <span>Wallet</span>
+        </button>
+        <button class="icon-tile" type="button">
+          <span class="icon-circle">⚙️</span>
+          <span>Settings</span>
+        </button>
+      </section>
 
-      <section id="popular" class="section">
-        <h2 class="section-title">Most Popular</h2>
-        <div class="grid" id="productsGrid" aria-live="polite"></div>
+      <section class="best-sale" id="popular">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Hot right now</span>
+            <h2>Best Sale Product</h2>
+          </div>
+          <button class="see-more" type="button">See more</button>
+        </div>
+        <div class="pills" id="filters" role="tablist" aria-label="Filter by category">
+          <button class="pill active" data-filter="all" type="button">All</button>
+          <button class="pill" data-filter="Men" type="button">Men</button>
+          <button class="pill" data-filter="Women" type="button">Women</button>
+          <button class="pill" data-filter="Kids" type="button">Kids</button>
+        </div>
+        <div class="grid products-grid" id="productsGrid" aria-live="polite"></div>
       </section>
     </main>
 
+    <nav class="bottom-nav" aria-label="Bottom navigation">
+      <button class="bottom-nav__btn is-active" data-nav="home">
+        <span aria-hidden="true">🏠</span>
+        <span>Home</span>
+      </button>
+      <button class="bottom-nav__btn" data-nav="voucher">
+        <span aria-hidden="true">🎁</span>
+        <span>Voucher</span>
+      </button>
+      <button class="bottom-nav__btn" data-nav="wallet">
+        <span aria-hidden="true">👛</span>
+        <span>Wallet</span>
+      </button>
+      <button class="bottom-nav__btn" data-nav="settings">
+        <span aria-hidden="true">⚙️</span>
+        <span>Settings</span>
+      </button>
+    </nav>
+
     <footer class="site-footer">
       <div class="container">
-        <p>© <span id="year"></span> Shadow Wear. All rights reserved.</p>
+        <p>© <span id="year"></span> Shadow Wear. Crafted in Morocco.</p>
       </div>
     </footer>
 
-    <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" aria-label="Shopping cart">
+    <aside
+      class="cart-drawer"
+      id="cartDrawer"
+      aria-hidden="true"
+      aria-label="Shopping cart"
+    >
       <div class="cart-header">
-        <h3>Cart</h3>
+        <h3>Shopping Cart</h3>
         <button class="icon-btn" id="closeCart" aria-label="Close cart">✖</button>
       </div>
       <div class="cart-body" id="cartItems"></div>
@@ -75,60 +137,142 @@
           <div class="row total"><span>Total</span><span id="totalVal">MAD 0.00</span></div>
         </div>
         <details class="checkout-details">
-          <summary>Customer Info</summary>
+          <summary>Customer info</summary>
           <div class="form-grid">
-            <input id="custName" class="input" placeholder="Full name" aria-label="Customer full name" />
-            <input id="custPhone" class="input" placeholder="Phone" aria-label="Customer phone" />
-            <input id="custCity" class="input" placeholder="City" aria-label="Customer city" />
-            <input id="custAddress" class="input" placeholder="Address" aria-label="Customer address" />
-            <input id="custNote" class="input" placeholder="Note (optional)" aria-label="Customer note" />
+            <input id="custName" class="input" placeholder="Full name" aria-label="Full name" />
+            <input id="custPhone" class="input" placeholder="Phone" aria-label="Phone" />
+            <input id="custCity" class="input" placeholder="City" aria-label="City" />
+            <input id="custAddress" class="input" placeholder="Address" aria-label="Address" />
+            <input id="custNote" class="input" placeholder="Note (optional)" aria-label="Note" />
           </div>
         </details>
         <div class="promo-row">
           <input id="promoInput" class="input" placeholder="Promo code" aria-label="Promo code" />
           <button id="applyPromo" class="btn-secondary" type="button">Apply</button>
         </div>
-        <button class="btn-primary" id="checkoutWhatsApp" type="button">Send Order via WhatsApp</button>
+        <button class="btn-primary" id="checkoutWhatsApp" type="button">
+          Send order via WhatsApp
+        </button>
       </div>
     </aside>
     <div class="drawer-backdrop" id="drawerBackdrop" hidden aria-hidden="true"></div>
 
-    <section class="admin" id="adminView" hidden>
-      <div class="container admin-wrap">
-        <div class="admin-header-row">
-          <h2>Admin — Quick Search</h2>
-          <button class="btn-secondary" id="adminLogout" type="button">Log out</button>
+    <section class="product-sheet" id="productSheet" aria-hidden="true">
+      <div class="sheet-header">
+        <button class="icon-btn" id="sheetClose" aria-label="Close product">✖</button>
+      </div>
+      <div class="sheet-content">
+        <div class="sheet-carousel">
+          <img id="sheetImage" alt="" loading="lazy" />
         </div>
-        <div class="admin-controls">
-          <input id="adminSearch" class="input" placeholder="Search by name or ID…" aria-label="Search products in admin" />
-          <div class="toggle" role="radiogroup" aria-label="Admin search mode">
-            <label><input type="radio" name="mode" value="name" checked /> Name</label>
-            <label><input type="radio" name="mode" value="id" /> ID</label>
+        <div class="sheet-body">
+          <span class="sheet-category" id="sheetCategory"></span>
+          <h3 class="sheet-title" id="sheetTitle"></h3>
+          <div class="sheet-rating">
+            <span id="sheetRating"></span>
+            <span id="sheetReviews"></span>
+            <span id="sheetSold"></span>
+          </div>
+          <div class="sheet-price-row">
+            <span class="sheet-price" id="sheetPrice"></span>
+            <button class="sheet-share" id="sheetShare" type="button">⤴︎ Share</button>
+          </div>
+
+          <div class="sheet-tabs" role="tablist">
+            <button class="sheet-tab is-active" data-tab="about" type="button">About Item</button>
+            <button class="sheet-tab" data-tab="reviews" type="button">Reviews</button>
+          </div>
+          <div class="sheet-tabpanes">
+            <div class="sheet-pane is-active" data-pane="about">
+              <p id="sheetAbout">
+                Breathable fabrics, minimal seams, and a soft finish combine for an everyday essential.
+              </p>
+            </div>
+            <div class="sheet-pane" data-pane="reviews">
+              <p>“Fits true to size, colors stay vibrant even after multiple washes.”</p>
+            </div>
+          </div>
+
+          <div class="sheet-section">
+            <h4>Color</h4>
+            <div id="sheetColors" class="pill-row" role="radiogroup"></div>
+          </div>
+
+          <div class="sheet-section">
+            <h4>Size (EU)</h4>
+            <div id="sheetSizes" class="pill-row" role="radiogroup"></div>
+          </div>
+
+          <div class="sheet-section">
+            <h4>Quantity</h4>
+            <div class="qty-stepper">
+              <button id="qtyDecrease" type="button" aria-label="Decrease quantity">−</button>
+              <span id="qtyValue">1</span>
+              <button id="qtyIncrease" type="button" aria-label="Increase quantity">＋</button>
+            </div>
+          </div>
+
+          <div class="sheet-actions">
+            <button class="btn-secondary" id="sheetAddToCart" type="button">Add to Cart</button>
+            <button class="btn-primary" id="sheetBuyNow" type="button">Buy Now</button>
           </div>
         </div>
+      </div>
+    </section>
+    <div class="sheet-backdrop" id="sheetBackdrop" hidden aria-hidden="true"></div>
+
+    <section class="admin" id="adminView" hidden aria-label="Admin tools">
+      <div class="container admin-wrap">
+        <div class="admin-header">
+          <h2>Admin — Quick Search</h2>
+          <button class="btn-secondary" id="adminLogout" type="button">Logout</button>
+        </div>
+        <div class="admin-controls">
+          <input
+            id="adminSearch"
+            class="input"
+            placeholder="Search by name or ID…"
+            aria-label="Admin search"
+          />
+          <div class="toggle" role="radiogroup" aria-label="Admin search mode">
+            <label><input type="radio" name="admin-mode" value="name" checked /> Name</label>
+            <label><input type="radio" name="admin-mode" value="id" /> ID</label>
+          </div>
+        </div>
+        <form class="admin-form" id="adminForm" autocomplete="off">
+          <div class="admin-form-header">
+            <h3 id="adminFormTitle">Add Product</h3>
+            <div class="admin-form-actions">
+              <button class="btn-secondary" type="button" id="adminFormReset">Reset</button>
+              <button class="btn-secondary" type="button" id="adminExport">Export JSON</button>
+            </div>
+          </div>
+          <div class="form-grid admin-form-grid">
+            <input id="adminId" class="input" placeholder="Product ID" aria-label="Product ID" required />
+            <input id="adminTitle" class="input" placeholder="Title" aria-label="Product title" required />
+            <input id="adminBrand" class="input" placeholder="Brand" aria-label="Brand" />
+            <input id="adminCategory" class="input" placeholder="Category" aria-label="Category" />
+            <input id="adminPrice" class="input" type="number" step="0.01" min="0" placeholder="Price (MAD)" aria-label="Price" required />
+            <input id="adminImage" class="input" placeholder="Image URL (https://…)" aria-label="Image URL" required />
+            <input id="adminColors" class="input" placeholder="Colors (comma separated)" aria-label="Colors" />
+            <input id="adminSizes" class="input" placeholder="Sizes EU (comma separated)" aria-label="Sizes" />
+            <input id="adminRating" class="input" type="number" step="0.01" min="0" max="5" placeholder="Rating (0-5)" aria-label="Rating" />
+            <input id="adminReviews" class="input" type="number" min="0" placeholder="Reviews" aria-label="Reviews" />
+            <input id="adminSold" class="input" type="number" min="0" placeholder="Sold" aria-label="Sold" />
+          </div>
+          <div class="admin-form-buttons">
+            <button class="btn-primary" type="submit">Save Product</button>
+          </div>
+          <p class="admin-hint">
+            Edits apply immediately in this session. Export and commit the JSON to persist on deploy.
+          </p>
+        </form>
         <div class="admin-table" id="adminResults" aria-live="polite"></div>
       </div>
     </section>
 
     <div id="toast" aria-live="polite" aria-atomic="true"></div>
 
-    <script>
-      // Handle Netlify Identity requests on localhost
-      if (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') {
-        const originalFetch = window.fetch;
-        window.fetch = function(url, options) {
-          if (typeof url === 'string' && url.includes('/.netlify/identity/')) {
-            return Promise.resolve({
-              ok: false,
-              status: 404,
-              statusText: 'Not Found',
-              json: () => Promise.resolve({ error: 'Netlify Identity not available in local development' })
-            });
-          }
-          return originalFetch.apply(this, arguments);
-        };
-      }
-    </script>
-    <script src="app.js" defer></script>
+    <script src="app.js" type="module"></script>
   </body>
 </html>
