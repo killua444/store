@@ -1,0 +1,69 @@
+# Collections map directly to products.json and content/settings.json
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: products
+    label: Products
+    label_singular: Product
+    editor:
+      preview: false
+    files:
+      - label: Product Catalog
+        name: catalog
+        file: products.json
+        format: json
+        fields:
+          - label: Products
+            name: products
+            widget: list
+            add_to_top: true
+            summary: "{{fields.title}} · {{fields.brand}}"
+            fields:
+              - { label: "SKU / ID", name: id, widget: string, hint: "Match the id field in products.json (ex: sku-blue-hoodie)." }
+              - { label: Title, name: title, widget: string }
+              - { label: Brand, name: brand, widget: string }
+              - { label: Description, name: description, widget: text }
+              - { label: Price (MAD), name: price, widget: number, min: 0, step: 1 }
+              - { label: Currency, name: currency, widget: string, default: "MAD" }
+              - { label: Category, name: category, widget: string }
+              - label: Colors
+                name: colors
+                widget: list
+                field: { label: Color, name: color, widget: string }
+              - label: Sizes
+                name: sizes
+                widget: list
+                field: { label: Size, name: size, widget: string }
+              - { label: Product Image, name: image, widget: image }
+              - { label: Created At, name: createdAt, widget: datetime, format: "YYYY-MM-DDTHH:mm:ss.SSS[Z]" }
+              - { label: New Arrival, name: isNew, widget: boolean, default: false }
+
+  - name: settings
+    label: Store Settings
+    editor:
+      preview: false
+    files:
+      - label: Store Settings
+        name: general
+        file: content/settings.json
+        format: json
+        fields:
+          - { label: Store Name, name: storeName, widget: string }
+          - { label: Tagline, name: tagline, widget: string, required: false }
+          - { label: Owner WhatsApp (E.164), name: ownerPhoneE164, widget: string, hint: "Format: country code + number (e.g. 2126XXXXXXX)." }
+          - { label: Currency, name: currency, widget: string, default: "MAD" }
+          - { label: Flat Shipping (MAD), name: shippingFlatMAD, widget: number, min: 0 }
+          - { label: Free Shipping Threshold (MAD), name: freeShippingThresholdMAD, widget: number, min: 0 }
+          - label: Promo Codes
+            name: promoCodes
+            widget: list
+            label_singular: Promo Code
+            fields:
+              - { label: Code, name: code, widget: string }
+              - { label: Type, name: type, widget: select, options: ["percent", "shipping"] }
+              - { label: Value, name: value, widget: number, min: 0 }

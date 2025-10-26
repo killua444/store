@@ -1,0 +1,11 @@
+{
+  "storeName": "Shadow Wear",
+  "ownerPhoneE164": "212696952145",
+  "adminEmail": "shadow@me",
+  "shippingFlatMAD": 30,
+  "freeShippingThresholdMAD": 500,
+  "promoCodes": [
+    { "code": "WELCOME10", "type": "percent", "value": 10 }
+  ],
+  "themePreset": "premium-amber"
+}

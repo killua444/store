@@ -1,0 +1,40 @@
+{
+  "products": [
+    {
+      "id": "tee-gold-classic",
+      "title": "Classic Amber Tee",
+      "brand": "Shadow",
+      "category": "Men",
+      "price": 149.00,
+      "currency": "MAD",
+      "image": "https://images.unsplash.com/photo-1520975682038-4c9a1f0238c8?q=80&w=1200&auto=format&fit=crop"
+    },
+    {
+      "id": "hoodie-deep-navy",
+      "title": "Deep Navy Hoodie",
+      "brand": "Shadow",
+      "category": "Men",
+      "price": 329.00,
+      "currency": "MAD",
+      "image": "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop"
+    },
+    {
+      "id": "dress-golden-hour",
+      "title": "Golden Hour Dress",
+      "brand": "Shadow",
+      "category": "Women",
+      "price": 459.00,
+      "currency": "MAD",
+      "image": "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?q=80&w=1200&auto=format&fit=crop"
+    },
+    {
+      "id": "kids-warm-sweater",
+      "title": "Warm Knit Sweater",
+      "brand": "Shadow",
+      "category": "Kids",
+      "price": 199.00,
+      "currency": "MAD",
+      "image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1200&auto=format&fit=crop"
+    }
+  ]
+}
